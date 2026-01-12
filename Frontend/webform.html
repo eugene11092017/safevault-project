@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeVault - Secure Data Management</title>
+    <script>
+        // Client-side validation
+        function validateForm() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Sanitize inputs
+            const sanitizedUsername = sanitizeInput(username);
+            const sanitizedEmail = sanitizeInput(email);
+            
+            // Validate username (alphanumeric only)
+            const usernameRegex = /^[a-zA-Z0-9_-]{3,20}$/;
+            if (!usernameRegex.test(sanitizedUsername)) {
+                alert('Username must be 3-20 characters (letters, numbers, _, -)');
+                return false;
+            }
+            
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(sanitizedEmail)) {
+                alert('Please enter a valid email address');
+                return false;
+            }
+            
+            // Validate password strength
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function sanitizeInput(input) {
+            return input.replace(/[<>"'&]/g, '');
+        }
+    </script>
+</head>
+<body>
+    <h1>SafeVault - Secure Registration</h1>
+    <form action="/submit" method="post" onsubmit="return validateForm()">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required 
+               pattern="[a-zA-Z0-9_-]{3,20}" 
+               title="3-20 characters (letters, numbers, _, -)">
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required 
+               minlength="8">
+        
+        <label for="role">Role:</label>
+        <select id="role" name="role">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
+        
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>
